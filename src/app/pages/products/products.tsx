@@ -1,22 +1,27 @@
 import "./products.css"
-import React, { MouseEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getProductsAction } from "../../redux/actions/products-api/product-actions";
+import { Product } from "../../components/product/product-component";
+import { IProduct } from "../../components/product/product-component";
 
 const Products = () => {
-    const dispatch = useDispatch();
-    
-	function handleOnSubmit(e: MouseEvent<HTMLButtonElement>): void {
-		e.preventDefault();
-        dispatch(getProductsAction());
-	}
+	const products = useAppSelector((state) => state.products);
+    const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getProductsAction());
+	},[])
 
 	return (
 		<div className="products-container">
-			Products
-			<button type='submit' onClick={handleOnSubmit}>
-				Click Me
-			</button>
+			
+			<div>
+				{products.map((databaseProduct: IProduct) => { 
+					return  <Product key = {databaseProduct.id} product={databaseProduct} />
+				})}
+		
+			</div>
 		</div>
 	);
 };

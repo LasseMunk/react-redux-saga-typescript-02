@@ -5,7 +5,7 @@ export const productsSlice = createSlice({
     initialState: [],
     reducers: {
         setProductList(state, action) {
-            console.warn("set product list called", action.payload)
+            return state = action.payload;
         }
     } 
 });

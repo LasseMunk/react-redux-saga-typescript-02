@@ -1,30 +1,21 @@
 import { takeEvery, put} from 'redux-saga/effects'
 import { setProductList } from '../slices/products-slice';
 import { getProductsAction } from '../actions/products-api/product-actions';
+import { IProduct } from '../../components/product/product-component';
 
-interface Product  {
-	id: number;
-	name: string;
-	color: string;
-	price: number;
-	category: string;
-	brand: string;
-	photo: string;
-};
-
-async function fetchProducts(): Promise<Product[]> {
+async function fetchProducts(): Promise<IProduct[]> {
 	const response = await fetch("http://localhost:3500/products");
 
-	if(!response.ok) {
+	if (!response.ok) {
 		console.warn("could not fetch products from server");
 	}
 
-	return(await response.json() as Product[]);
+	return (await response.json()) as IProduct[];
 }
 
 function* getProducts()
 {
-	let products: Product[] = yield fetchProducts();
+	let products: IProduct[] = yield fetchProducts();
 	yield put({ type: setProductList, payload: products });
 }
 
